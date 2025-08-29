@@ -6,23 +6,14 @@ Built with scalable data pipelines, comprehensive monitoring, and automated qual
 This system automatically collects rental and sale listings from major Serbian real estate websites, processes them for duplicates, stores structured data, and provides real-time notifications and monitoring. Designed for continuous operation with robust error handling and observability.
 
 ## Architecture
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Web Sources   │    │   Scrapers       │    │   Database      │
-│                 │    │                  │    │                 │
-│  • oglasi.rs    │───▶│  • Base Scraper  │───▶│  PostgreSQL     │
-│  • 4zida.rs     │    │  • Anti-bot      │    │  • Listings     │
-│                 │    │  • Retry Logic   │    │  • Owners       │
-└─────────────────┘    └──────────────────┘    │  • History      │
-                                               └─────────────────┘
-                              │
-                              ▼
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│  Notifications  │    │   Monitoring     │    │   Data Export   │
-│                 │    │                  │    │                 │
-│  • Telegram     │◀───│  • Prometheus    │    │  Google Sheets  │
-│  • Alerts       │    │  • Grafana       │    │  • API Ready    │
-│                 │    │  • Health Check  │    │                 │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
+```mermaid
+graph TD
+    A[Web Sources<br/>oglasi.rs<br/>4zida.rs] --> B[Scrapers<br/>Base Scraper<br/>Anti-bot<br/>Retry Logic]
+    B --> C[Database<br/>PostgreSQL<br/>Listings<br/>Owners<br/>History]
+    B --> D[Notifications<br/>Telegram<br/>Alerts]
+    B --> E[Monitoring<br/>Prometheus<br/>Grafana<br/>Health Check]
+    C --> F[Data Export<br/>Google Sheets<br/>API Ready]
+```
 
 ## Key Features 
 ### Web Scraping & Data Collection 
