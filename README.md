@@ -32,19 +32,19 @@ This system automatically collects rental and sale listings from major Serbian r
 - **Robust parsing**: Multiple selector fallbacks for reliable data extraction
 - **Rate limiting**: Configurable delays and request throttling
 
-- ### Data Quality & Intelligence
+### Data Quality & Intelligence
 - **Duplicate detection**: URL-based and external ID-based deduplication
 - **Price tracking**: Historical price changes with timestamp logging
 - **Data validation**: Schema validation, price normalization, location parsing
 - **Structured storage**: Relational database with proper indexing and constraints
 
-- ### Production Monitoring
+### Production Monitoring
 - **Prometheus metrics**: Custom metrics for scrapers, errors, and performance
 - **Grafana dashboards**: Real-time visualization of system health and processing rates
 - **Alert system**: Telegram notifications for downtime, errors, and anomalies
 - **Health endpoints**: Docker-compatible health checks and status monitoring
 
-- ### Scalable Architecture 
+### Scalable Architecture 
 **Containerized deployment**: Docker Compose with resource limits 
 **Concurrent processing**: ThreadPoolExecutor for parallel scraper execution 
 **Database connection pooling**: Optimized connection management with retry logic 
@@ -67,7 +67,7 @@ This system automatically collects rental and sale listings from major Serbian r
 - Telegram bot token
 - Google Sheets API credentials
 
-- ### 1. Clone Repository
+### 1. Clone Repository
 
 git clone https://github.com/yourusername/real-estate-scraper.git
 cd real-estate-scraper
@@ -210,7 +210,8 @@ python -m scrapers.oglasi_scraper
 - **CPU**: 2+ cores recommended 
 - **Memory**: 4GB+ RAM 
 - **Storage**: 10GB+ for data and logs 
-- **Network**: Stable internet for continuous scraping ### Security Considerations
+- **Network**: Stable internet for continuous scraping
+### Security Considerations
 - Environment variables for sensitive data
 - Database connection encryption
 - Bot token protection 
@@ -232,8 +233,8 @@ docker-compose exec -T db psql -U postgres realestate < backup.sql
 -   Add more source websites 
 -   Implement distributed scraping with message queues
 
--   ## Troubleshooting
--   ### Common Issues
+  ### Troubleshooting
+### Common Issues
 
 # Check container logs
 docker-compose logs scraper
@@ -251,7 +252,7 @@ curl http://localhost:8000/metrics
 - **Application**: http://localhost:8000/health -
 - **Database**: Prometheus postgres exporter metrics -
 - **Scrapers**: Active scraper count in Grafana
-- ## Contributing
+## Contributing
 - 1. Fork the repository
   2. Create feature branch: git checkout -b feature-name
   3. Commit changes: git commit -am 'Add feature'
