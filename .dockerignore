@@ -1,0 +1,39 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+env/
+venv/
+.venv/
+
+# Logs & data
+*.log
+data/logs/
+data/postgres/
+scraper.log
+
+# Credentials (ne želimo da uđu u image)
+credentials/
+*.json
+*.key
+*.pem
+
+# Environment files
+.env
+.env.*
+*.env
+
+# Git files
+.git
+.gitignore
+.dockerignore
+
+# IDE / OS files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

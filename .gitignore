@@ -1,0 +1,41 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdm
+*.pdm.toml
+
+# Virtual environments
+env/
+venv/
+.venv/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Logs & temp
+*.log
+data/logs/
+data/postgres/
+scraper.log
+
+# Credentials (nikad ne smeju na GitHub!)
+credentials/
+*.json
+*.key
+*.pem
+
+# Environment
+.env
+.env.*
+*.env
+
+# IDE / OS files
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
