@@ -29,23 +29,11 @@ class OglasiScraper(BaseScraper):
         )
         self.telegram = TelegramNotifier(bot_token, chat_id)
         self.processed_links = set()
-        
-        # Configure SSL and certificates
-        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        self.session = requests.Session()
-        self.session.verify = certifi.where()
-    
+
     def get_page_url(self, page: int) -> str:
         if page == 1:
             return "https://www.oglasi.rs/nekretnine/izdavanje-stanova/novi-sad?s=d&rt=vlasnik"
         return f"https://www.oglasi.rs/nekretnine/izdavanje-stanova/novi-sad?s=d&rt=vlasnik&p={page}"
-
-    def make_request(self, url):
-        try:
-            return self.session.get(url, timeout=10)
-        except Exception as e:
-            logger.warning(f"Request failed: {e}")
-            return None
 
     def check_listing_exists(self, link: str, external_id: str) -> Tuple[bool, Optional[Listing]]:
         if link in [pl.url for pl in self.processed_links]:
@@ -123,17 +111,22 @@ class OglasiScraper(BaseScraper):
             return ""
 
     def extract_posting_date(self, listing, visit_detail: bool = False) -> datetime:
-        try:
-            date_element = listing.find_element(By.CSS_SELECTOR, '.visible-sm.time')
-            if date_element:
-                date_text = date_element.text.strip()
-                logger.debug(f"Found date text: {date_text}")
-                date_part = date_text.split('.')[0:3]
-                date_str = '.'.join(date_part)
-                return datetime.strptime(date_str, '%d.%m.%Y')
-        except Exception as e:
-            logger.warning(f"Could not extract posting date: {e}")
-            return datetime.now()
+        selectors = ['.visible-sm.time', '.date-published', '.listing-date', '.publish-date']
+        for selector in selectors:
+            try:
+                date_element = listing.find_element(By.CSS_SELECTOR, selector)
+                if date_element:
+                    date_text = date_element.text.strip()
+                    logger.debug(f"Found date text: {date_text}")
+                    date_part = date_text.split('.')[0:3]
+                    date_str = '.'.join(date_part)
+                    return datetime.strptime(date_str, '%d.%m.%Y')
+            except Exception as e:
+                logger.debug(f"Selector {selector} failed: {e}")
+                continue  # Probaj sledeći selector umesto return
+        
+        logger.warning("Could not extract posting date with any selector")
+        return datetime.now()  # Samo ako svi selectors ne uspeju
 
     def extract_location_from_breadcrumbs(self, listing) -> str:
         try:
@@ -216,7 +209,7 @@ class OglasiScraper(BaseScraper):
                         img = listing.find_element(By.CSS_SELECTOR, selector)
                         img_url = img.get_attribute('src')
                         if img_url and 'no-image' not in img_url:
-                            response = self.session.get(img_url, verify=certifi.where())
+                            response = self.make_request(img_url)
                             if response.ok:
                                 listing_photo = BytesIO(response.content)
                                 listing_photo.name = 'image.jpg'

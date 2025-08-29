@@ -108,7 +108,9 @@ class BaseScraper(ABC):
                  wait_time: int = 300):
         self.bot_token = bot_token
         self.chat_id = chat_id
+        logger.debug(f"Converting processed_links_path: {processed_links_path} (type: {type(processed_links_path)})")
         self.processed_links_path = Path(processed_links_path)
+        logger.debug(f"After conversion: {self.processed_links_path} (type: {type(self.processed_links_path)})")
         self.wait_time = wait_time
         self.driver = None
         self.wait = None
@@ -132,6 +134,12 @@ class BaseScraper(ABC):
         self.processed_links_path.parent.mkdir(parents=True, exist_ok=True)
         self._file_lock = threading.Lock()
 
+        self.http_session = requests.Session()
+        from requests.adapters import HTTPAdapter
+        adapter = HTTPAdapter(pool_connections=10, pool_maxsize=20, max_retries=3)
+        self.http_session.mount('http://', adapter)
+        self.http_session.mount('https://', adapter)
+
     def __enter__(self):
         return self
         
@@ -153,7 +161,7 @@ class BaseScraper(ABC):
             ssl_context.verify_mode = ssl.CERT_NONE
             
             # Use the custom context in requests
-            response = requests.get(
+            response = self.http_session.get(
                 url, 
                 timeout=timeout,
                 verify=False,  # Disable SSL verification
