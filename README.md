@@ -68,17 +68,17 @@ This system automatically collects rental and sale listings from major Serbian r
 - Google Sheets API credentials
 
 - ### 1. Clone Repository
-bash
+
 git clone https://github.com/yourusername/real-estate-scraper.git
 cd real-estate-scraper
 
 ### 2. Environment Configuration
-bash
+
 cp .env.example .env
 # Edit .env with your credentials
 
 ### 3. Deploy with Docker
-bash
+
 docker-compose up -d
 
 ### 4. Access Monitoring 
@@ -89,7 +89,7 @@ docker-compose up -d
 ## Configuration
 ### Environment Variables
 
-bash
+
 # Telegram Configuration
 
 TELEGRAM_BOT_TOKEN=your_bot_token_here
@@ -141,7 +141,7 @@ MAX_PAGES=2
   
 ## Database Schema 
 ### Listings Table
-sql
+
 CREATE TABLE listings (
     id SERIAL PRIMARY KEY,
     source VARCHAR(50),
@@ -157,7 +157,7 @@ CREATE TABLE listings (
     UNIQUE(source, external_id)
 );
 ### Price History Tracking
-sql
+
 CREATE TABLE listing_history (
     id SERIAL PRIMARY KEY,
     listing_id INTEGER REFERENCES listings(id),
@@ -183,7 +183,7 @@ CREATE TABLE listing_history (
   1. Inherit from BaseScraper class
   2. Implement get_page_url(), get_page_listings(), process_listing() methods
   3. Add to configuration in main.py ## Development ### Local Development
-bash
+
 # Install dependencies
 pip install -r requirements.txt
 
@@ -199,7 +199,7 @@ python src/main.py
 3. Add to scraper configuration in main.py
 
 ### Testing
-bash
+
 # Test database connection
 python -c "from database.session import get_db_session; print('DB OK')"
 
@@ -215,7 +215,7 @@ python -m scrapers.oglasi_scraper
 - Database connection encryption
 - Bot token protection 
 - Rate limiting to respect source websites ### Backup Strategy
-bash
+
 # Database backup
 docker-compose exec db pg_dump -U postgres realestate > backup.sql
 
@@ -234,7 +234,7 @@ docker-compose exec -T db psql -U postgres realestate < backup.sql
 
 -   ## Troubleshooting
 -   ### Common Issues
-bash
+
 # Check container logs
 docker-compose logs scraper
 
