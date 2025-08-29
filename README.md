@@ -1,4 +1,7 @@
-# Real Estate Data Collection System A production-ready web scraping system for collecting and monitoring real estate listings from multiple Serbian marketplaces. Built with scalable data pipelines, comprehensive monitoring, and automated quality assurance. ## Overview This system automatically collects rental and sale listings from major Serbian real estate websites, processes them for duplicates, stores structured data, and provides real-time notifications and monitoring. Designed for continuous operation with robust error handling and observability. ## Architecture
+# Real Estate Data Collection System
+A production-ready web scraping system for collecting and monitoring real estate listings from multiple Serbian marketplaces. 
+Built with scalable data pipelines, comprehensive monitoring, and automated quality assurance.
+## Overview This system automatically collects rental and sale listings from major Serbian real estate websites, processes them for duplicates, stores structured data, and provides real-time notifications and monitoring. Designed for continuous operation with robust error handling and observability. ## Architecture
 ┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
 │   Web Sources   │    │   Scrapers       │    │   Database      │
 │                 │    │                  │    │                 │
